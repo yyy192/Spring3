@@ -1,5 +1,7 @@
 package com.bh.b1.bankbook;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -10,18 +12,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bh.b1util.DBConnector;
+
 @Controller
 @RequestMapping("/bankbook/*")
 public class BankBookController {
 
+	private BankbookService bankbookService;
+	
+	public BankBookController() {
+		bankbookService = new BankbookService();
+		
+	}
 	@RequestMapping(value = "bankbookList.do", method = RequestMethod.GET)
-	public ModelAndView list(Integer [] num, ModelAndView mv) {
-		for(Integer i : num) {
-			System.out.println(i);
-		}
+	public ModelAndView list(ModelAndView mv) {
+		ArrayList<BankBookDTO> ar = bankbookService.getList();
 		System.out.println("bankbook list");
 		
 		/* ModelAndView mv = new ModelAndView(); */
+		mv.addObject("list", ar);
 		mv.setViewName("bankbook/bankbookList");
 		
 		return mv;

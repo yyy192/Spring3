@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 
-@Component
+
 public class DBConnector {
 	
 	public Connection getConnect() {

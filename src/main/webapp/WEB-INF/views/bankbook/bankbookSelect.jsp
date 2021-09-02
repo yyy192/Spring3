@@ -32,6 +32,8 @@
 				<td>${dtov.bookUse}</td>
 			</tr>
 		</table>
+		
+		<a href="./bankbookDelete?bookNumber=${dtov.bookNumber}">Delete</a>
 	</div>
 	
 </body>

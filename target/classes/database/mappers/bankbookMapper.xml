@@ -17,4 +17,8 @@
   		INSERT INTO BANKBOOK VALUES(BANKBOOK_SEQ.NEXTVAL, #{bookName}, #{bookRate}, #{bookUse})
   	</insert>
   	
+  	<delete id="setDelete" parameterType="java.lang.Long">
+  		DELETE BANKBOOK WHERE BOOKNUMBER=#{bookNumber}
+  	</delete>
+  	
   </mapper>

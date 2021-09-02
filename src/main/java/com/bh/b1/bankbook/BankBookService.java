@@ -24,5 +24,9 @@ public class BankBookService {
 		
 		return bankBookDAO.setInsert(bankBookDTO);
 	}
+	
+	public int setDelete(Long bookNumber) {
+		return bankBookDAO.setDelete(bookNumber);
+	}
 
 }

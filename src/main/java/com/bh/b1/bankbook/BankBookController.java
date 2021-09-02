@@ -2,15 +2,11 @@ package com.bh.b1.bankbook;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -21,13 +17,15 @@ public class BankBookController {
 	private BankBookService bankbookService;
 	
 	@RequestMapping("bankbookSelect")
-	public Model select(BankBookDTO bankBookDTO, Model model, ModelAndView mv) {
-		bankBookDTO.setBookNumber(bankBookDTO.getBookNumber());
+	public void select(BankBookDTO bankBookDTO, Model model, ModelAndView mv) {
+		
 		bankBookDTO = bankbookService.getSelect(bankBookDTO);
 		model.addAttribute("dtov", bankBookDTO);
-		mv.setViewName("bankbook/bankbookSelect");
-		
-		return model;
+		/*
+		 * mv.setViewName("bankbook/bankbookSelect");
+		 * 
+		 * return mv;
+		 */
 	}
 	
 	@RequestMapping("bankbookList")
@@ -41,11 +39,22 @@ public class BankBookController {
 		
 	}
 	
-	@RequestMapping("bankbookInsert.do")
-	public String insert(BankBookDTO bankBookDTO) {
+	@RequestMapping(value="bankbookInsert", method=RequestMethod.GET)
+	public void insert() {
 		
-		System.out.println(bankBookDTO.getBookName());
-		System.out.println("bankbook Insert");
-		return "redirect:../";
+	}
+	
+	@RequestMapping(value="bankbookInsert", method=RequestMethod.POST)
+	public String insert(BankBookDTO bankBookDTO) {
+		int reult = bankbookService.setInsert(bankBookDTO);
+		
+		return "redirect:./bankbookList";
+	}
+	
+	@RequestMapping("bankbookDelete")
+	public String delete(Long bookNumber) {
+		int result = bankbookService.setDelete(bookNumber);
+		
+		return "redirect:./bankbookList";
 	}
 }

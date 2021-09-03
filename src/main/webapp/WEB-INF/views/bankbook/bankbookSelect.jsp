@@ -33,7 +33,8 @@
 			</tr>
 		</table>
 		
-		<a href="./bankbookDelete?bookNumber=${dtov.bookNumber}">Delete</a>
+		<a href="./bankbookDelete?bookNumber=${dtov.bookNumber}" class="btn btn-dark">Delete</a>
+		<a href="./bankbookUpdate?bookNumber=${dtov.bookNumber}" class="btn btn-dark">Update</a>
 	</div>
 	
 </body>

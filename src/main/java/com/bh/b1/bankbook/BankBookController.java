@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bh.b1.util.Pager;
+
 @Controller
 @RequestMapping("/bankbook/*")
 public class BankBookController {
@@ -17,7 +19,7 @@ public class BankBookController {
 	private BankBookService bankbookService;
 	
 	@RequestMapping("bankbookSelect")
-	public void select(BankBookDTO bankBookDTO, Model model, ModelAndView mv) {
+	public void select(BankBookDTO bankBookDTO, Model model) {
 		
 		bankBookDTO = bankbookService.getSelect(bankBookDTO);
 		model.addAttribute("dtov", bankBookDTO);
@@ -29,9 +31,11 @@ public class BankBookController {
 	}
 	
 	@RequestMapping("bankbookList")
-	public ModelAndView list(ModelAndView mv) {
+	public ModelAndView list(ModelAndView mv, Pager pager) {
 		
-		List<BankBookDTO> ar = bankbookService.getList();
+		List<BankBookDTO> ar = bankbookService.getList(pager);
+		
+		mv.addObject("pager", pager);
 		mv.addObject("list", ar);
 		mv.setViewName("bankbook/bankbookList");
 		
@@ -55,6 +59,27 @@ public class BankBookController {
 	public String delete(Long bookNumber) {
 		int result = bankbookService.setDelete(bookNumber);
 		
+		return "redirect:./bankbookList";
+	}
+	
+	@RequestMapping(value = "bankbookUpdate", method = RequestMethod.GET)
+	public ModelAndView update(BankBookDTO bankBookDTO, ModelAndView mv) {
+		bankBookDTO = bankbookService.getSelect(bankBookDTO);
+		///System.out.println(bankBookDTO.getBookName());
+		 
+		//ModelAndView mv = new ModelAndView();
+		mv.setViewName("bankbook/bankbookUpdate");
+		mv.addObject("dto", bankBookDTO);
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "bankbookUpdate", method=RequestMethod.POST)
+	public String update(BankBookDTO bankBookDTO) {
+		
+		int result = bankbookService.setUpdate(bankBookDTO);
+		
+		//mv.setViewName("redirect:./bankbookList");
 		return "redirect:./bankbookList";
 	}
 }

@@ -5,8 +5,16 @@
   
   <mapper namespace="com.bh.b1.bankbook.BankBookDAO">
   	
-  	<select id="getList" resultType="com.bh.b1.bankbook.BankBookDTO">
-  		SELECT * FROM BANKBOOK
+  	<select id="getList" parameterType="com.bh.b1.util.Pager" resultType="com.bh.b1.bankbook.BankBookDTO">
+  		SELECT * FROM
+		    (SELECT ROWNUM R, BK.* FROM 
+		            (SELECT * 
+		            FROM BANKBOOK
+		            ORDER BY BOOKNUMBER DESC
+		            ) 
+		        BK
+		    )
+		WHERE R BETWEEN #{startRow} AND #{lastRow}
   	</select>
   	
   	<select id="getSelect" parameterType="com.bh.b1.bankbook.BankBookDTO" resultType="com.bh.b1.bankbook.BankBookDTO">
@@ -20,5 +28,10 @@
   	<delete id="setDelete" parameterType="java.lang.Long">
   		DELETE BANKBOOK WHERE BOOKNUMBER=#{bookNumber}
   	</delete>
+  	
+  	<!-- id는 DAO에 있는 동일한 메서드명으로 -->
+  	<update id="setUpdate" parameterType="com.bh.b1.bankbook.BankBookDTO">
+  		UPDATE BANKBOOK SET BOOKNAME=#{bookName}, BOOKRATE=#{bookRate}, BOOKUSE=#{bookUse} WHERE BOOKNUMBER=#{bookNumber}
+  	</update>
   	
   </mapper>

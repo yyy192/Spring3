@@ -42,5 +42,9 @@ public class BankBookDAO {
 		return sqlSession.selectOne(NAMESPACE+"getSelect", bankBookDTO);
 		
 	}
+	
+	public Long getCount() {
+		return sqlSession.selectOne(NAMESPACE+"getCount");
+	}
 
 }

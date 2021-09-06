@@ -11,18 +11,20 @@ public class Pager {
 	private Long startNum;
 	private Long lastNum;
 	
+	private Long totalPage;
+	
 	public void makeRow() {
 		
 		this.startRow = (this.getPn()-1)*this.getPerPage()+1;
 		this.lastRow = this.getPn()*this.getPerPage();
 	}
 	
-	public void makeNum() {
+	public void makeNum(Long totalCount) {
 		//1. totlaCount 구하기
-		Long  totalCount = 211L;
+		//Long  totalCount = 211L;
 		
 		//2. totalPage 구하기
-		Long totalPage = totalCount/this.getPerPage();
+		totalPage = totalCount/this.getPerPage();
 		
 		if(totalCount%this.getPerPage() != 0) {
 			//totalPage = totalPage + 1L;
@@ -36,6 +38,11 @@ public class Pager {
 		}
 		
 		//4. pn으로 curBlock 구하기
+		
+		if(totalPage<this.getPn()) {
+			this.setPn(totalPage);
+		}
+		
 		Long curBlock = this.getPn()/5;
 		if(this.getPn()%5 !=0) {
 			curBlock++;
@@ -45,10 +52,17 @@ public class Pager {
 		this.startNum = (curBlock-1)*5+1;
 		this.lastNum = curBlock*5;
 		
+		if(curBlock == totalBlock) {
+			this.lastNum = totalPage;
+		}
 	}
 	
 	
 	
+	public Long getTotalPage() {
+		return totalPage;
+	}
+
 	public Long getStartNum() {
 		return startNum;
 	}

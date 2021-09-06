@@ -5,6 +5,10 @@
   
   <mapper namespace="com.bh.b1.bankbook.BankBookDAO">
   	
+  	<select id="getCount" resultType="java.lang.Long">
+  		SELECT COUNT(BOOKNUMBER) FROM BANKBOOK
+  	</select>
+  	
   	<select id="getList" parameterType="com.bh.b1.util.Pager" resultType="com.bh.b1.bankbook.BankBookDTO">
   		SELECT * FROM
 		    (SELECT ROWNUM R, BK.* FROM 

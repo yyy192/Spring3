@@ -5,8 +5,24 @@
   
   <mapper namespace="com.bh.b1.bankbook.BankBookDAO">
   	
-  	<select id="getCount" resultType="java.lang.Long">
+  	
+  	<select id="getCount" resultType="java.lang.Long" parameterType="com.bh.b1.util.Pager">
   		SELECT COUNT(BOOKNUMBER) FROM BANKBOOK
+  		WHERE 
+			<choose>
+				<when test="kind == 'num'">
+					bookNumber
+				</when>
+				<when test="kind == 'name'">
+					bookName
+				</when>
+				<otherwise>
+					bookRate
+				</otherwise>
+			</choose>
+
+			LIKE '%' || #{search} || '%' 
+		    ORDER BY BOOKNUMBER DESC
   	</select>
   	
   	<select id="getList" parameterType="com.bh.b1.util.Pager" resultType="com.bh.b1.bankbook.BankBookDTO">
@@ -14,6 +30,21 @@
 		    (SELECT ROWNUM R, BK.* FROM 
 		            (SELECT * 
 		            FROM BANKBOOK
+		            WHERE 
+					
+					<choose>
+						<when test="kind == 'num'">
+							bookNumber
+						</when>
+						<when test="kind == 'name'">
+							bookName
+						</when>
+						<otherwise>
+							bookRate
+						</otherwise>
+					</choose>
+
+					LIKE '%' || #{search} || '%' 
 		            ORDER BY BOOKNUMBER DESC
 		            ) 
 		        BK
